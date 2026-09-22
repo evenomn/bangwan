@@ -14,12 +14,8 @@ Go 编写的跨平台 **好看** 的 WebShell 管理工具（GUI 版）。支持
 
 - **一键换背景图**：设置 → 上传任意图片（支持 PNG/JPG/GIF/SVG/WebP），立即铺满全屏，无需重启
 - **背景透明度**：可调，图片太花也不挡内容
-- **多套配色方案**：内置 default / blue / green / purple / red 五套主题色，一键切换
-- **细节拉满**：类终端配色、暗色风 UI、响应式布局
-- **记忆你的偏好**：配色、背景图、透明度全部持久化（存浏览器 localStorage，换台电脑/浏览器不会丢，回到同一台机器自动恢复）
-- **零外部依赖**：Tailwind / Font Awesome 已内嵌二进制本地伺服，断网不影响样式与可读性
+可在左下角主题设置上传定义图片背景
 
-拿它管理 shell，界面也能赏心悦目。
 
 ---
 
@@ -46,18 +42,6 @@ Go 编写的跨平台 **好看** 的 WebShell 管理工具（GUI 版）。支持
 ### 线上协议
 - **v2 静态密钥**（兼容协议）：全会话同一把主密钥加密，兼容所有历史版本 agent
 - **v3 一包一密**（推荐）：每包携带独立随机 salt，包密钥 = `HMAC-SHA256(主密钥, salt)`；agent 自适应双协议，新老客户端通吃
-
-### 马类型与 Profile
-| 类型 | Profile | 说明 |
-|---|---|---|
-| JSP | `default` | 表单 `sign` 参数传密文，返回 404 伪装页（密文藏 csrf-token meta） |
-| JSP | `json_api` | JSON `{"data": "..."}` 请求/响应，适合反代/API 网关环境 |
-| JSP | `multipart` | multipart/form-data 传参，兼容 Tomcat（手动解析 body） |
-| PHP | `default` | 标准 PHP 马 |
-| PHP | `json_api` | JSON 信封，适合反代/API 网关环境 |
-| PHP | `multipart` | multipart 表单传参 |
-
-JSP 载荷基于 JDK 8+ 标准 API，Java 8 ~ 21 均可使用。
 
 ### 功能模块
 
@@ -89,14 +73,12 @@ JSP 载荷基于 JDK 8+ 标准 API，Java 8 ~ 21 均可使用。
 **使用**：添加目标弹窗 → 流量伪装面板 → 粘贴样本 → 「学习画像并附加」→ 「下载配套 Agent」→ 部署 → 保存连接。
 
 ---
-
-## 免杀与对抗
-
-- **插件字节码变形**：每次分发自动 morph（SourceFile / 常量池扰动），同类插件每次落地的字节码指纹不同
-- **三 Profile 信封**：请求/响应分别伪装成普通 API JSON、表单或 404 页面
-- **画像同形**：业务流量画像模式下，线上包与业务请求仅承载位取值不同
-- **一包一密**：无跨包密钥复用
-- **前端资源本地伺服**：无对外 CDN 请求特征，断网 UI 完整
+MCP使用
+生成MCP配置文件
+  ```bash
+   ./BangwanShell   -mcp-config .mcp.json          # 默认监听 127.0.0.1:9000，也可指定端口：./BangwanShell -p 9001
+   ```
+启动claudecode配置好mcp文件即可使用mcp
 
 ---
 
